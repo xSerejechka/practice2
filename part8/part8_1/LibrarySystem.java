@@ -46,8 +46,7 @@ public class LibrarySystem {
         /** Возвращает русское название жанра. */
         public String getRussianName() {
             // ▼ ВАШ КОД ЗДЕСЬ ▼
-return "";
-
+            return russianName;
             // ▲ КОНЕЦ ВАШЕГО КОДА ▲
         }
 
@@ -165,7 +164,12 @@ return "";
          */
         public void printCatalog() {
             // ▼ ВАШ КОД ЗДЕСЬ ▼
-
+            for (LibraryItem item : items) {
+                switch (item) {
+                    case PhysicalBook pb -> System.out.println("Физ.: " + pb.getInfo());
+                    case EBook eb        -> System.out.println("Эл.:  " + eb.getInfo());
+                }
+            }
             // ▲ КОНЕЦ ВАШЕГО КОДА ▲
         }
 
@@ -192,7 +196,7 @@ return "";
          */
         public double totalValue() {
             // ▼ ВАШ КОД ЗДЕСЬ ▼
-return 0.0;
+            return items.stream().mapToDouble(i -> i.book().price()).sum();
             // ▲ КОНЕЦ ВАШЕГО КОДА ▲
         }
 
@@ -204,7 +208,7 @@ return 0.0;
          */
         public Optional<Book> mostExpensive() {
             // ▼ ВАШ КОД ЗДЕСЬ ▼
-return null;
+            return items.stream().map(LibraryItem::book).max(Comparator.comparingDouble(Book::price));
            // ▲ КОНЕЦ ВАШЕГО КОДА ▲
         }
 
@@ -233,21 +237,29 @@ return null;
         Library lib = new Library();
 
         // TODO: добавьте 8+ книг (физические и электронные). Пример:
-        // lib.add(new PhysicalBook(new Book("Война и мир", "Толстой", 1869, Genre.FICTION, 800), "A-12"));
-        // lib.add(new EBook(new Book("Clean Code", "Мартин", 2008, Genre.PROGRAMMING, 1500), "PDF", 5.2));
+        lib.add(new PhysicalBook(new Book("Мастер и Маргарита", "Булгаков", 1967, Genre.FICTION, 480), "F-42"));
+        lib.add(new EBook(new Book("The Pragmatic Programmer", "Хант", 1999, Genre.PROGRAMMING, 950), "EPUB", 2.8));
+        lib.add(new PhysicalBook(new Book("Происхождение видов", "Дарвин", 1859, Genre.SCIENCE, 1100), "S-12"));
+        lib.add(new EBook(new Book("Thinking, Fast and Slow", "Канеман", 2011, Genre.SCIENCE, 980), "PDF", 6.5));
+        lib.add(new PhysicalBook(new Book("Идиот", "Достоевский", 1869, Genre.FICTION, 640), "F-18"));
+        lib.add(new EBook(new Book("Refactoring", "Фаулер", 2018, Genre.PROGRAMMING, 1600), "MOBI", 4.4));
+        lib.add(new PhysicalBook(new Book("Вторая мировая война", "Черчилль", 1948, Genre.HISTORY, 1500), "H-22"));
+        lib.add(new EBook(new Book("The Art of Computer Programming", "Кнут", 1968, Genre.PROGRAMMING, 2000), "PDF", 12.0));
+        lib.add(new PhysicalBook(new Book("Три товарища", "Ремарк", 1936, Genre.FICTION, 450), "F-99"));
+        lib.add(new EBook(new Book("Государь", "Макиавелли", 1532, Genre.HISTORY, 320), "EPUB", 0.9));
 
         // TODO: вызовите и продемонстрируйте все методы Library:
-        // System.out.println("=== Каталог ===");
-        // lib.printCatalog();
-        //
-        // System.out.println("\n=== По жанрам ===");
-        // lib.groupByGenre().forEach((genre, list) -> { ... });
-        //
-        // System.out.printf("\nОбщая стоимость: %.2f руб.%n", lib.totalValue());
-        //
-        // lib.mostExpensive().ifPresent(b -> System.out.println("Самая дорогая: " + b));
-        //
-        // System.out.println("\nАвторы программирования: " + lib.authorsByGenre(Genre.PROGRAMMING));
+        System.out.println("=== Каталог ===");
+        lib.printCatalog();
+
+        System.out.println("\n=== По жанрам ===");
+        lib.groupByGenre().forEach((genre, list) -> {});
+
+        System.out.printf("\nОбщая стоимость: %.2f руб.%n", lib.totalValue());
+
+        lib.mostExpensive().ifPresent(b -> System.out.println("Самая дорогая: " + b));
+
+        System.out.println("\nАвторы программирования: " + lib.authorsByGenre(Genre.PROGRAMMING));
 
 
         lib.add(new PhysicalBook(new Book("Война и мир", "Толстой", 1869, Genre.FICTION, 800), "A-12"));

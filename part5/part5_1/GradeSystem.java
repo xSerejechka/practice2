@@ -58,14 +58,14 @@ public class GradeSystem {
         /** Возвращает описание оценки (например, "Отлично"). */
         public String getDescription() {
             // ▼ ВАШ КОД ЗДЕСЬ ▼
-            return null; // TODO: верните description
+            return description; // TODO: верните description
             // ▲ КОНЕЦ ВАШЕГО КОДА ▲
         }
 
         /** Возвращает GPA-значение (например, 4.0). */
         public double getGpaValue() {
             // ▼ ВАШ КОД ЗДЕСЬ ▼
-            return 0; // TODO: верните gpaValue
+            return gpaValue; // TODO: верните gpaValue
             // ▲ КОНЕЦ ВАШЕГО КОДА ▲
         }
 
@@ -76,7 +76,7 @@ public class GradeSystem {
          */
         public boolean isPassing() {
             // ▼ ВАШ КОД ЗДЕСЬ ▼
-            return false; // TODO: верните this != F && this != D
+            return this != F && this != D; // TODO: верните this != F && this != D
             // ▲ КОНЕЦ ВАШЕГО КОДА ▲
         }
 
@@ -89,8 +89,17 @@ public class GradeSystem {
          * if (score >= 90) return A; else if (score >= 80) return B; ...
          */
         public static Grade fromScore(int score) {
-            // ▼ ВАШ КОД ЗДЕСЬ ▼
-            return F; // TODO: if (score >= 90) return A; else if (score >= 80) return B; ...
+            // ▼ ВАШ КОД ЗДЕСЬ
+            if (score >= 90)
+                return A;
+            else if (score >= 80)
+                return B;
+            else if (score >= 70)
+                return C;
+            else if (score >= 60)
+                return D;
+            return F;
+            // TODO: if (score >= 90) return A; else if (score >= 80) return B; ...
             // ▲ КОНЕЦ ВАШЕГО КОДА ▲
         }
     }
@@ -111,6 +120,8 @@ public class GradeSystem {
      */
     record Student(String name, int id) {
         Student {
+            if (name == null || name.isBlank()) throw new IllegalArgumentException("...");
+            if (id <= 0) throw new IllegalArgumentException("...");
             // TODO: проверьте, что name не null и не пустое, id > 0
             // Выбросите IllegalArgumentException при нарушении
         }
@@ -145,9 +156,9 @@ public class GradeSystem {
                 new Student("Глеб", 4),
                 new Student("Дмитрий", 5),
                 new Student("Елена", 6),
-                new Student("ваш имя???", 7)
+                new Student("Сергей", 7)
         };
-        int[] scores = {95, 82, 71, 58, 88, 90, 65};
+        int[] scores = {95, 82, 71, 58, 88, 90, 100};
         var gradeMap = new EnumMap<Grade, List<Student>>(Grade.class);
         double gpaSum = 0;
         for (int i = 0; i < students.length; i++) {
